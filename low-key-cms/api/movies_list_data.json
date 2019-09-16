@@ -1,0 +1,19 @@
+[
+  {
+    "_id": "qq_film_movies_url",
+    "listUrl": "https://list.video.qq.com/fcgi-bin/list_common_cgi?otype=json&novalue=1&platform=1&version=10000&intfname=web_vip_movie_new&tid=687&appkey=c8094537f5337021&appid=200010596&type=1&sourcetype=1&itype=-1&iyear=-1&iarea=-1&iawards=-1&sort=19&callback=qq_film_movies_url&pagesize=35&offset=0"
+  },
+  {
+    "_id": "qq_tv_movies_url",
+    "listUrl": "https://list.video.qq.com/fcgi-bin/list_common_cgi?otype=json&novalue=1&platform=1&version=10000&intfname=web_vip_tv_new&tid=687&appkey=c8094537f5337021&appid=200010596&type=2&sourcetype=1&iarea=-1&itype=-1&iyear=-1&sort=18&callback=qq_tv_movies_url&pagesize=35&offset=0"
+  },
+  {
+    "_id": "qq_cartoon_movies_url",
+    "listUrl": "https://list.video.qq.com/fcgi-bin/list_common_cgi?otype=json&novalue=1&platform=5&version=20304&intfname=vip_cartoon_h5&tid=573&uappkey=d2a6457eb8ae927a&uappid=20001172&type=3&sourcetype=1&sort=18&cartoon_type=-1&cartoon_focus=-1&callback=qq_cartoon_movies_url&pagesize=35&offset=0"
+  },
+  {
+    "_id": "iqiyi_film_movies_url",
+    "listUrl": "http://pcw-api.iqiyi.com/search/video/videolists?access_play_control_platform=14&channel_id=1&data_type=1&from=pcw_list&is_album_finished=&is_purchase=2&key=&market_release_date_level=&mode=11&site=iqiyi&source_type=&three_category_id=&without_qipu=1&pageNum=1&pageSize=48&&callback=iqiyi_film_movies_url"
+  }
+
+]

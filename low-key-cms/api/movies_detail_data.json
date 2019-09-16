@@ -1,0 +1,10 @@
+[
+  {
+    "_id": "qq_detail_url",
+    "detailUrl": "https://node.video.qq.com/x/api/float_vinfo2?"
+  },
+  {
+    "_id": "iqiyi_detail_url",
+    "detailUrl": "http://pcw-api.iqiyi.com/video/video/baseinfo/"
+  }
+]

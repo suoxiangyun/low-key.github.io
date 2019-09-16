@@ -1,0 +1,320 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>低调影视</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="综合视频站—— 本站所有影片信息均来至互联网，仅供交流学习使用。">
+    <link rel="shortcut icon" href="../common/images/favicon.ico" type="image/x-icon">
+    <!--字体图标-->
+    <link href="../common/css/icomoon.css" rel="stylesheet">
+    <!--动画-->
+    <link href="../common/css/animate.css" rel="stylesheet">
+    <!--骨架样式-->
+    <link href="../common/css/common.css" rel="stylesheet">
+    <!--皮肤（缇娜）-->
+    <link href="../common/css/skin/tina.css" rel="stylesheet">
+    <!--jquery，请勿轻易修改版本-->
+    <script src="../common/lib/jquery-3.3.1.min.js"></script>
+    <!--全局动态修改-->
+    <script src="../common/js/common.js"></script>
+
+    <script src="../common/js/common-ajax.js"></script>
+    <!--核心组件-->
+    <!--<script src="../common/js/javaex.js"></script>-->
+    <!--表单验证-->
+    <script src="../common/js/javaex-formVerify.js"></script>
+    <link href="../common/css/main.css" rel="stylesheet">
+    <link href="../common/css/list.css" rel="stylesheet">
+    <style>
+        .header-wrap {
+            background: linear-gradient(#1a1a1a, transparent);
+        }
+    </style>
+    <style>
+        .ex-slide ul.focus-bg a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+
+        .ex-slide ul.focus-bg li {
+            width: 100%;
+            height: 550px;
+        }
+
+        .ex-slide .focus-box {
+            position: unset;
+        }
+    </style>
+</head>
+<body ng-app="app">
+<div class="page-wrap">
+    <div class="main-content"   ng-controller="moviesListController">
+        <!--顶部-->
+        <div class="header-wrap header-channel" style="background: linear-gradient(rgb(26, 26, 26), transparent);">
+
+            <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+            <div class="header-inner">
+                <!--logo-->
+                <div class="logo-wrap"><a href="/" class="top-logo">低调影视</a></div>
+
+                <!--搜索-->
+                <div class="search-container">
+                    <div class="search-input-wrap"><input type="text" id="keyword" class="search-input original"
+                                                          value=""
+                                                          onkeydown="if(event.keyCode==13){search(this.value);}"></div>
+                    <div class="search-btn" id="search"><i class="iconfont icon-search search-icon"></i></div>
+                </div>
+
+                <!--用户-->
+                <div class="header-side clearfix">
+                    <div class="user-side-wrap">
+
+                        <div class="user-wrap">
+
+                            <div>
+                                <a class="chanel-link user-info-list dropdownSel">
+                                    <span class="user-name"></span>
+                                    <span class="user-level level-0"></span>
+                                    <span class="nav-arrow down"></span>
+                                </a>
+                            </div>
+                            <div class="user-panel">
+                                <div class="user-wrap-arrow"></div>
+                                <div class="user-avatar-wrap">
+
+
+                                    <img src="../common/images/avatar.jpg" class="avatar">
+
+
+                                    <span class="user-name"></span>
+                                    <span class="user-level level-0"></span>
+                                </div>
+                                <ul class="user-chanel">
+                                    <li><a href="/user/fav" target="_blank" class="item"><i class="item-icon lib"></i>我的收藏</a>
+                                    </li>
+                                    <li><a href="#" target="_blank" class="item"><i class="item-icon order"></i>我的订阅</a>
+                                    </li>
+                                    <li><a href="/user/accountset" target="_blank" class="item"><i
+                                            class="item-icon set"></i>个人设置</a></li>
+
+                                    <li><a href="/logout" class="item"><i class="item-icon logout"></i>退出账号</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="user-login show">
+
+
+                            <a href="javascript:;" onclick="login();" class="chanel-link"><span
+                                    class="user-name">登录</span></a>
+                            <a href="/register" class="chanel-link"><span class="user-name">注册</span></a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <script>
+                $("#search").click(function () {
+                    // 关键词检索
+                    var keyword = $("#keyword").val();
+                    search(keyword);
+                });
+
+                // 搜索
+                function search(keyword) {
+                    // 判断关键词是否为空
+                    keyword = keyword.replace(/(^\s*)|(\s*$)/g, "");
+                    if (keyword != "") {
+                        keyword = keyword.replace(":", "：");
+                        window.location.href = "/search?keyword=" + keyword;
+                    }
+                }
+            </script>
+        </div>
+
+        <!--分类信息-->
+        <div class="classify-wrap">
+            <div class="classify-list">
+                <div class="classify-item">
+                    <span class="classify-title"><font style="vertical-align: inherit;">类型：</font></span>
+                    <div class="classify-list-outer">
+                        <ul id="16" class="classify-ul listTag1_4">
+                            <li class="classify-li {{filmType}}" val="film">
+                                <a  ng-click="getMovies('film')" class="classify-letter"><font style="vertical-align: inherit;">电影</font></a>
+                            </li>
+                            <li class="classify-li {{tvType}}" val="tv">
+                                <a ng-click="getMovies('tv')" class="classify-letter"><font style="vertical-align: inherit;">电视剧</font></a>
+                            </li>
+                            <li class="classify-li {{cartoonType}}" val="cartoon">
+                                <a  ng-click="getMovies('cartoon')" class="classify-letter"><font style="vertical-align: inherit;">动漫</font></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 筛选结果 -->
+        <div class="main-wrap" style="flex: 1;">
+            <div infinite-scroll='loadMore()'>
+                <loading></loading>
+                <div id="media_list" class="javaex-list-wrap">
+                    <div class="plist-item" ng-repeat="data in moviesListData" on-finish-render>
+                        <div class="plist-img-wrap">
+                            <div class="plist-con pop-in" style="animation-delay: 0.109845s;">
+                                <a href="play.html?type=qq&amp;producer=film&amp;sid={{data.id}}" target="_blank" class="javaex-list-link ">
+                                    <img width="100%" height="100%" src="{{data.fields.new_pic_vt}}" style="display: inline;">
+                                    <!--<p class="pic-inner-title">{{data.fields.title}}</p>-->
+                                </a>
+                            </div>
+                            <a href="play.html?type=qq&amp;producer=film&amp;sid={{data.id}}" target="_blank" class="pic-title">
+                                <font style="vertical-align: inherit;">{{data.fields.c_title}}</font>
+                            </a>
+                            <p class="pic-sub-title"><font style="vertical-align: inherit;">{{data.fields.second_title}}</font></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--底部-->
+        <div class="footer-wrap js-use-footer">
+            <div class="footer-inner">
+                <div class="footmenu">
+                    <a href="#" rel="nofollow" target="_blank" class="menu-item">本站所有影片信息均来至互联网，仅供学习交流</a>
+                    <span class="dl"></span>
+                    <a href="#" rel="nofollow" target="_blank" class="menu-item">侵权投诉</a>
+                    <span class="dl"></span>
+                    <span class="menu-item"></span>
+                </div>
+                <p class="copyright">Copyright © 2019 低调影视 All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../common/js/angular.min.js"></script>
+<script type="text/javascript" src="../common/js/ng-infinite-scroll.min.js"></script>
+<script>
+    var moviesListApp = angular.module('app',  ['infinite-scroll']);
+
+    //自定义服务接口
+    moviesListApp.factory('MoviesListInfo',['$http', '$q', function($http,$q){
+            return {
+                getMoviesListUrl: function(moviesUrl, idKey){
+                    var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
+                    $http({method: 'GET', url: moviesUrl}).
+                    success(function(data, status, headers, config) {
+                        data.forEach((value, key) =>{
+                            if(idKey == value._id){
+                                deferred.resolve(value);  // 声明执行成功，即http请求数据成功，可以返回数据了
+                            }
+                        });
+                    }).
+                    error(function(data, status, headers, config) {
+                        deferred.reject(data);   // 声明执行失败，即服务器返回错误
+                    });
+                    return deferred.promise;   // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+                }
+            }
+    }]);
+
+    moviesListApp.controller('moviesListController', ['$scope', 'MoviesListInfo', function ($scope, MoviesListInfo) { // 引用我们定义的MoviesInfo服务
+        $scope.type = "";
+        $scope.filmType = "";
+        $scope.tvType = "";
+        $scope.cartoontype = "";
+        $scope.moviesListData = [];
+        var type = getQueryUrlVal("type");
+        var producer = getQueryUrlVal("producer");
+        setLiClass($scope, producer);
+
+        ajaxGetMovies($scope,MoviesListInfo, type+"_"+producer);
+
+        // 点击类型加载数据
+        $scope.getMovies = function(producer) {
+            var type = getQueryUrlVal("type");
+            setLiClass($scope, producer);
+
+            ajaxGetMovies($scope,MoviesListInfo, type+"_"+producer);
+        };
+
+        //加载滑动加载
+        $scope.loadMore = function () {
+            var  dataSize =$scope.moviesListData.length;
+            var  offset =((parseInt(dataSize)/35)*35);
+//           alert( $scope.type + " ssssssssssssss" + offset);
+
+        };
+
+    }]);
+
+    moviesListApp.directive('loading',loading);
+
+    //loading 样式
+    function loading(){
+        return {
+            restrict: 'E',
+            transclude: true,
+            template: '<div ng-show="loading" class="loading" id="allDiv"  style="position:fixed; top:0px; left:0px; width:100%; height:100%; display:none; background-color:#000; opacity: 0.5; z-index:99999;">'
+            +'<img alt="" src="../common/images/loading.png" style="vertical-align: middle;width:100px; height:100px; position: absolute; top:50%; left:50%; margin-top: -50px; margin-left:-50px;"/></div>',
+            link: function (scope, element, attr) {
+                scope.$watch('loading', function (val) {
+                    if (val){
+                        document.getElementById("allDiv").style.display = "block";
+                    }else{
+                        document.getElementById("allDiv").style.display = 'none';
+                    }
+                });
+            }
+        }
+    }
+
+    //设置类型 选中样式
+    function setLiClass($scope,producer){
+        if(producer == "film"){
+            $scope.filmType = "on";
+            $scope.tvType = "";
+            $scope.cartoonType = "";
+        }
+        if(producer == "tv"){
+            $scope.tvType = "on";
+            $scope.filmType = "";
+            $scope.cartoonType = "";
+        }
+        if(producer == "cartoon"){
+            $scope.cartoonType = "on";
+            $scope.filmType = "";
+            $scope.tvType = "";
+        }
+        $scope.producer =  producer;
+    }
+
+
+
+    //请求接口加载数据
+    function ajaxGetMovies($scope,MoviesListInfo,type) {
+        $scope.loading = true;//控制遮罩层显示
+        var idKey = type+"_movies_url";
+        var moviesUrl =  "../api/movies_list_data.json";
+        console.info(idKey + " ==== " + type);
+        MoviesListInfo.getMoviesListUrl(moviesUrl, idKey).then(function(urldata) {  // 调用承诺API获取数据 .resolve
+            //需要判断
+            request_get_jsonp(urldata.listUrl,"jsonp",idKey).then(function (data) {
+                $scope.loading = false;//控制遮罩层隐藏
+                if(data.msg == "OK"){
+                    $scope.moviesListData =data.jsonvalue.results;
+                }
+                $scope.$apply();//绑定到视图
+            });
+        }, function(data) {  // 处理错误 .reject
+            $scope.loading = false;//控制遮罩层隐藏
+            $scope.$apply();//绑定到视图
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,843 @@
+@charset "utf-8";
+.page-wrap .header-wrap {
+    background:#1a1a1a;
+}
+.page-wrap .main-wrap {
+    padding-top:10px;
+    margin-top:.7rem;
+}
+
+.javaex-play-area-wrap {
+    position:relative;
+    background:#1a1a1a;
+    margin-bottom:2vw;
+}
+.javaex-play-area-wrap .javaex-play-area {
+    display:table;
+    width:100%;
+}
+.javaex-play-area-wrap .javaex-play-area .pw-video .control-tips-vip {
+    font-size:.16rem;
+    height:.3rem;
+    line-height:.3rem;
+}
+.javaex-play-area-wrap .javaex-play-left,.javaex-play-area-wrap .javaex-play-right,.javaex-play-area-wrap .javaex-play-right2 {
+    position:relative;
+    display:table-cell;
+}
+.javaex-play-area-wrap .javaex-play-right {
+    width:120px
+}
+.javaex-play-area-wrap .javaex-play-right2 {
+    width:200px
+}
+.javaex-play-area-wrap .javaex-video-wrap {
+    position:relative;
+}
+.javaex-play-area-wrap .javaex-video-wrap:before {
+    content:"";
+    display:block;
+    padding-top:56.25%
+}
+.javaex-play-area-wrap .javaex-video-area {
+    font-size:12px;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#585858;
+}
+.javaex-play-area-wrap .javaex-video-area video {
+    position:absolute;
+}
+
+@media screen and (min-width:700px) {
+    .javaex-play-area-wrap .javaex-play-left .full-screen {
+        cursor:pointer;
+        position:absolute;
+        top:50%;
+        right:-12px;
+        -webkit-transform:translateY(-50%);
+        -ms-transform:translateY(-50%);
+        transform:translateY(-50%);
+        width:12px;
+        height:60px;
+        background:#2a2a2a;
+        border-top-right-radius:12px;
+        border-bottom-right-radius:12px;
+        z-index:10
+    }
+    .javaex-play-area-wrap .javaex-play-left .full-screen .iconfont {
+        font-size:18px;
+        position:absolute;
+        top:50%;
+        left:50%;
+        -webkit-transform:translate(-50%,-50%);
+        -ms-transform:translate(-50%,-50%);
+        transform:translate(-50%,-50%);
+        color:#999
+    }
+    .javaex-play-area-wrap .javaex-play-left .full-screen:hover {
+        background:#2e2e2e
+    }
+    .javaex-play-area-wrap .javaex-play-left .full-screen:hover .iconfont {
+        color:#aaa
+    }
+    .javaex-play-area.full .javaex-play-right {
+        display:none
+    }
+    .javaex-play-area.full .javaex-play-right2 {
+        display:none
+    }
+    .javaex-play-area.full .javaex-video-wrap:before {
+        padding-top:46.25%
+    }
+}
+
+.javaex-play-list {
+    font-size:14px;
+    color:#ddd;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    padding:0 0 0 20px;
+}
+.javaex-play-list.mobile-scroll .javaex-play-scroll-content {
+    overflow-x:hidden;
+    overflow-y:scroll;
+    -webkit-overflow-scrolling:touch;
+    overflow:-moz-scrollbars-none
+}
+.javaex-play-list.mobile-scroll .javaex-play-scroll-content::-webkit-scrollbar {
+    display:none
+}
+.javaex-play-list.mobile-scroll .scroll-bar-outer {
+    display:none
+}
+.javaex-play-list .arrow-label {
+    display:none;
+    position:absolute;
+    z-index:10;
+    top:50px;
+    right:-8px;
+    line-height:30px;
+    vertical-align:baseline;
+    margin:0 .15em;
+    padding:0 10px;
+    height:30px;
+    font-size:14px;
+    border-radius:3px;
+    transition:background .1s ease;
+    background-color:#111;
+    color:#999
+}
+.javaex-play-list .arrow-label.show {
+    display:block
+}
+.javaex-play-list .arrow-label:before {
+    background-color:inherit;
+    border-style:solid;
+    position:absolute;
+    content:"";
+    z-index:2;
+    width:6px;
+    height:6px;
+    transition:background .1s ease;
+    border-color:inherit;
+    border-width:0 0 1px 1px;
+    -webkit-transform:translateX(-50%) translateY(-50%) rotate(135deg);
+    -ms-transform:translateX(-50%) translateY(-50%) rotate(135deg);
+    transform:translateX(-50%) translateY(-50%) rotate(135deg);
+    top:0;
+    right:10px
+}
+.javaex-play-list .arrow-label .link {
+    cursor:pointer;
+    color:#00be06
+}
+.javaex-play-list .arrow-label .close-icon {
+    display:inline-block;
+    font-size:12px;
+    cursor:pointer;
+    margin-left:12px;
+    color:#00be06
+}
+.javaex-play-list .arrow-label .close-icon:hover {
+    color:#00c606
+}
+.javaex-play-list .vip-btn-wrap .flag-pop {
+    font-size:12px;
+    color:#fff;
+    height:24px;
+    line-height:24px;
+    display:inline-block;
+    border-radius:16px 12px 12px 2px;
+    padding-left:12px;
+    padding-right:8px;
+    background:#ff5722;
+    position:relative;
+    bottom:-4px;
+    margin-top:-4px;
+    left:129px;
+    z-index:1
+}
+.javaex-play-list .javaex-play-scroll-content {
+    position:relative;
+    overflow:auto;
+}
+.javaex-play-list .javaex-play-scroll-content .loading-circle {
+    position:absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform:translate(-50%,-50%);
+    -ms-transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%)
+}
+.javaex-play-list .javaex-play-scroll-content .loading-circle.hide {
+    display:none
+}
+.javaex-play-list .javaex-play-list-title {
+    position:relative;
+    line-height:1.5;
+    padding-top:18px;
+    padding-bottom:20px;
+    margin-right: 20px;
+}
+.javaex-play-list .javaex-play-list-title .main-title {
+    font-size:20px;
+    color:#fff;
+    margin-right:24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.javaex-play-list .javaex-play-list-title .sub-title {
+    color:#999
+}
+.javaex-play-list .javaex-play-list-title .collect {
+    position:absolute;
+    top:20px;
+    right:0;
+    display:inline-block;
+    width:24px;
+    height:24px;
+    background:#5c5c5c;
+    border-radius:50%;
+    cursor:pointer
+}
+.javaex-play-list .javaex-play-list-title .collect .iconfont {
+    font-size:18px;
+    color:#f2f2f2;
+    position:absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform:translate(-50%,-50%);
+    -ms-transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%)
+}
+.javaex-play-list .javaex-play-list-title .collect:hover {
+    background:#00be06
+}
+.javaex-play-list .javaex-play-vip-btn {
+    position:relative;
+    cursor:pointer;
+    font-size:16px;
+    display:block;
+    background:#c8a06a;
+    color:#fefefe;
+    text-align:center;
+    width:100%;
+    border-radius:4px;
+    line-height:1;
+    padding:10px 0
+}
+.javaex-play-list .javaex-play-vip-btn:hover {
+    background:#e2b16d
+}
+.javaex-play-list .javaex-episode-title {
+    font-size:16px;
+    color:#fff;
+    margin-bottom:15px
+}
+.javaex-play-list .javaex-episodes-list {
+    padding-right: 10px;
+}
+.javaex-play-list .javaex-episodes-list .v-li {
+    cursor:pointer;
+    position:relative;
+}
+.javaex-play-list .javaex-episodes-list .v-li .drama-item {
+    display:block;
+    padding: 13px;
+    font-size:14px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.javaex-play-list .javaex-episodes-list .v-li.drama {
+    background:#242424;
+    border-radius:2px;
+    margin-bottom:2px;
+    box-sizing:border-box
+}
+.javaex-play-list .javaex-episodes-list .v-li.drama .javaex-video-brand {
+    position:absolute;
+    top:0;
+    right:0
+}
+.javaex-play-list .javaex-episodes-list .v-li.drama.selected,.javaex-play-list .javaex-episodes-list .v-li.drama:hover {
+    background:#1e1e1e
+}
+.javaex-play-list .javaex-episodes-list .v-li.drama.selected:after {
+    content:"";
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    border-radius:4px;
+    border:2px solid #00be06
+}
+.javaex-play-list .javaex-episodes-list .v-li.selected .javaex-list-link:before {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    border:2px solid #00be06;
+    z-index:1
+}
+.javaex-play-list .javaex-episodes-list .v-li.selected .v-title {
+    color:#00be06
+}
+.javaex-play-list .javaex-episodes-list .v-desc {
+    display:inline-block;
+    font-size:14px
+}
+.javaex-play-list .javaex-episodes-list .v-title {
+    display:block;
+    margin-top:5px;
+    line-height:20px;
+    max-height:40px;
+    overflow:hidden
+}
+.javaex-play-list .javaex-episodes-list .v-title:hover {
+    color:#00be06
+}
+.javaex-play-list .javaex-episodes-list .v-num {
+    position:absolute;
+    bottom:25px;
+    color:#999;
+    line-height:1;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
+.javaex-play-list .javaex-episodes-list .v-num .i-play {
+    font-size:12px;
+    margin-right:5px
+}
+.javaex-play-list .javaex-relate-video {
+    margin-top:11px
+}
+.javaex-play-list .scroll-bar-outer {
+    position:absolute;
+    height:50%;
+    top:50%;
+    right:4px;
+    background:#1a1a1a;
+    width:7px
+}
+.javaex-play-list .scroll-bar-outer .scroll-bar-inner {
+    position:absolute;
+    left:0;
+    top:0;
+    border-radius:3px;
+    height:70px;
+    background:#333;
+    width:7px;
+    cursor:pointer
+}
+.javaex-play-list .scroll-bar-outer .scroll-bar-inner:hover {
+    background:#505050
+}
+
+@media screen and (min-width:700px) {
+    .javaex-play-list .javaex-play-pgc {
+        display:none
+    }
+    .javaex-play-list .javaex-episodes-list .plist-item.item-h {
+        width:55%
+    }
+    .javaex-play-list .javaex-episodes-list .v-desc {
+        width:45%
+    }
+    .javaex-play-list .javaex-play-single {
+        margin-bottom:21px
+    }
+    .javaex-play-list .vip-btn-wrap {
+        padding-bottom:19px
+    }
+    .javaex-play-list .vip-btn-wrap.pc {
+        position:relative;
+        display:block
+    }
+    .javaex-play-list .vip-btn-wrap.mobile {
+        display:none
+    }
+    .javaex-play-list .javaex-source-nav {
+        font-size:0;
+        padding-bottom:15px
+    }
+    .javaex-play-list .javaex-source-nav .link-item {
+        cursor:pointer;
+        display:inline-block;
+        font-size:14px;
+        color:#999;
+        width:95px;
+        height:30px;
+        line-height:30px;
+        vertical-align:middle;
+        background:#242424;
+        border-radius:4px;
+        text-align:center
+    }
+    .javaex-play-list .javaex-source-nav .link-item:first-child {
+        margin-right:20px
+    }
+    .javaex-play-list .javaex-source-nav .link-item.selected,.javaex-play-list .javaex-source-nav .link-item:hover {
+        color:#00be06
+    }
+    .javaex-play-list .javaex-episode-title.source {
+        display:none
+    }
+}
+
+@media screen and (min-width:1300px) and (max-width:1599px) {
+    .javaex-play-list .javaex-play-scroll-content {
+        height:84%
+    }
+}
+
+@media screen and (min-width:1600px) {
+    .javaex-play-list .javaex-play-scroll-content {
+        height:87%
+    }}
+
+.plist-img-detail .plist-desc-wrap .sub-title {
+    font-size:.12rem;
+    line-height:2;
+    color:#999;
+    width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
+.javaex-m-play-info .sub-title {
+    font-size:.28rem;
+    color:#999;
+    margin-bottom:.29rem
+}
+
+.plist-img-detail .p-collect {
+    margin-top:.1rem;
+    font-size:.14rem
+}
+
+.play-record-wrap .play-record-list .play-manu .link {
+    color:#00be06;
+    display:block
+}
+
+.javaex-m-play-info .javaex-play-title .drama-name {
+    color:#00be06
+}
+
+.javaex-play-info {
+    position:relative;
+    font-size:14px;
+    line-height:1.2;
+    padding-bottom:24px;
+    padding-left:20px
+}
+.javaex-play-info .javaex-play-num {
+    font-size:14px;
+    color:#ddd;
+    margin-right:10px
+}
+.javaex-play-info .javaex-play-num .i-play {
+    font-size:12px;
+    margin-right:5px
+}
+.javaex-play-info .javaex-play-title {
+    font-size:24px;
+    color:#fff;
+    margin:18px 0 16px;
+    width:calc(100% - 320px)
+}
+.javaex-play-info .javaex-play-title .drama-name {
+    color:#00be06;
+}
+.javaex-play-info .javaex-play-intro {
+    display:inline-block;
+    margin-right:17px;
+    color:#ddd;
+    cursor:pointer;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+}
+.javaex-play-info .javaex-play-intro .nav-arrow {
+    display:inline-block;
+    vertical-align:middle;
+    top:-1px;
+    position:relative;
+    font-size:0;
+    margin-left:5px;
+    width:0;
+    height:0;
+    border-top:5px solid #ddd;
+    border-right:5px solid transparent;
+    border-left:5px solid transparent
+}
+.javaex-play-info .javaex-play-intro:hover {
+    color:#00be06;
+}
+.javaex-play-info .javaex-play-intro:hover .nav-arrow {
+    width:0;
+    height:0;
+    border-top:5px solid #00be06;
+    border-right:5px solid transparent;
+    border-left:5px solid transparent
+}
+.javaex-play-info .javaex-play-intro.selected {
+    color:#00be06
+}
+.javaex-play-info .javaex-play-intro.selected .nav-arrow {
+    border:none;
+    width:0;
+    height:0;
+    border-right:5px solid transparent;
+    border-bottom:5px solid #00be06;
+    border-left:5px solid transparent
+}
+
+
+.javaex-play-info .javaex-play-tag {
+    font-size:0;
+    display:inline-block
+}
+.javaex-play-info .javaex-play-tag .tag-li {
+    display:inline-block;
+    margin-right:8px;
+    cursor:pointer
+}
+.javaex-play-info .javaex-play-tag .tag-li-link {
+    background:#4d4d4d;
+    padding:5px 8px;
+    font-size:14px;
+    color:#ccc;
+    border-radius:12px;
+    cursor:pointer
+}
+.javaex-play-info .javaex-play-tag .tag-li-link:hover {
+    background:#00be06;
+    color:#fff
+}
+.javaex-play-info .javaex-app-download {
+    position:absolute;
+    right:20px;
+    bottom:18px
+}
+.javaex-play-info .javaex-app-download .app-img {
+    width:280px
+}
+
+@media screen and (min-width:700px) {
+    .nav-list {
+        float:left;
+        list-style:none
+    }
+    .nav-list .channel {
+        position:relative;
+        font-size:.16rem;
+        float:left;
+        margin-right:30px
+    }
+    .nav-list .chanel-wrap {
+        position:relative
+    }
+
+    .nav-list .nav-arrow {
+        display:inline-block;
+        vertical-align:middle;
+        top:-.01rem;
+        position:relative;
+        font-size:0;
+        margin-left:5px;
+        width:0;
+        height:0;
+        border-top:5px solid #fff;
+        border-right:5px solid transparent;
+        border-left:5px solid transparent
+    }
+    .nav-list .chanel-link {
+        color:#fff;
+        display:inline-block;
+        cursor:pointer
+    }
+    .nav-list .chanel-link:hover {
+        color:#00be06
+    }
+    .nav-list .chanel-link:hover .nav-arrow {
+        width:0;
+        height:0;
+        border-top:5px solid #00be06;
+        border-right:5px solid transparent;
+        border-left:5px solid transparent
+    }
+    .nav-list .chanel-link.selected {
+        color:#00be06
+    }
+    .nav-list .chanel-link.selected .nav-arrow {
+        width:0;
+        height:0;
+        border-right:5px solid transparent;
+        border-bottom:5px solid #00be06;
+        border-left:5px solid transparent;
+        border-top:none
+    }
+    .nav-list .chanel-link.selected .chanel-pop {
+        display:block
+    }
+}
+
+
+.javaex-play-content {
+    padding-left:20px;
+    padding-right:35px;
+    padding-bottom:20px;
+    font-size:0;
+    color:#999;
+    overflow:hidden
+}
+.javaex-play-content .content-cover {
+    vertical-align:top;
+    display:inline-block;
+    margin-right:20px
+}
+.javaex-play-content .content-img {
+    width:151px;
+    height:226px
+}
+.javaex-play-content .content-right {
+    padding-top:10px;
+    line-height:24px;
+    font-size:16px;
+    display:inline-block;
+    width:calc(100% - 180px)
+}
+.javaex-play-content .content-item {
+    margin-bottom:6px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
+.javaex-play-content .content-item .link {
+    color:#fff
+}
+
+.javaex-play-scroll-content::-webkit-scrollbar {width: 12px;height: 12px;}
+.javaex-play-scroll-content::-webkit-scrollbar-thumb {background-color: #616161;background-clip: padding-box;min-height: 28px;}
+.javaex-play-scroll-content::-webkit-scrollbar-track-piece {background-color: #1a1a1a;}
+.comment{color:#fff;}
+
+.comment .posr {
+    background-color: #2c2c2c;
+}
+.comment .comment-ul li {
+    border-top: 1px solid #1a1a1a;
+}
+.comment .posr li {
+    border-bottom: 1px solid #1a1a1a;
+}
+.comment .comment-count-title {
+    color: #fff;
+}
+.comment .comment-author {
+    color: #00be06;
+}
+.comment .comment-author:hover {
+    color: #00be06;
+}
+.comment .comment-ul li {
+    border-top: 1px solid #3c3939;
+}
+.comment .comment-bottom a {
+    color: #999;
+    margin: 0 5px;
+    transition: all 0.15s linear 0s;
+}
+.comment .comment-bottom a:hover {
+    color: #00be06;
+}
+.comment .form-textwrap {
+    height: auto;
+    margin-bottom: 0;
+}
+.comment .comment-textarea {
+    border: 0;
+    outline: 0;
+    resize: none;
+    overflow: auto;
+    width: 100%;
+    height: 80px;
+    background: #444;
+    outline: none;
+    color: #b2b2b2;
+    line-height: 20px;
+    font-size: 16px;
+}
+.comment .comment-textarea::-webkit-scrollbar {
+    width: 6px;
+}
+.comment .comment-textarea::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 3px;
+}
+.comment .comment-form {
+    background: #444;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.comment .button.comment-submit {
+    width: 90px;
+    height: 34px;
+    line-height: 34px;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+    background-color: #00be06;
+    border-radius: 17px;
+}
+.comment .posr {
+    background-color: #242424;
+}
+.comment .posrs .posr {
+    background-color: #444;
+}
+.comment .posrs {
+    background-color: #444;
+}
+.comment .comment-c-conent a.comment-c-replyer {
+    color: #00be06;
+}
+.comment .comment-c-replyer2 {
+    color: #999;
+}
+.comment .comment-c-replyer2:hover {
+    color:#00be06;
+}
+.comment .comment-c-text {
+    color: #fff;
+}
+.comment .comment-textarea.comment-textarea-reply {
+    border-radius: 4px;
+    border: unset;
+    background: #333;
+    height:50px;
+}
+.comment .posrs li {
+    border-bottom: 1px solid #3c3939;
+}
+.comment .comment-replyer-time a:hover {
+    color: #00be06;
+}
+.comment a.say-btn:hover {
+    color: #00be06;
+}
+
+
+.mod-rank-des .rank-item {
+    margin-bottom: 15px;
+    height: 121px;
+}
+.mod-rank-des .rank-nub {
+    width: 85px;
+    height: 121px;
+    line-height: 121px;
+    font-size: 32px;
+    color: #00be06;
+    float: left;
+    text-align: center;
+    background: url(../images/sprite-rank-bg.png) no-repeat -300px 0;
+}
+.mod-rank-des .rank-nub-1 {
+    color: #ff3000;
+    background-position: 0 0;
+}
+.mod-rank-des .rank-nub-2 {
+    color: #ff6003;
+    background-position: -100px 0;
+}
+.mod-rank-des .rank-nub-3 {
+    color: #ffa215;
+    background-position: -200px 0;
+}
+
+.mod-rank-des .rank-con {
+    position: relative;
+    float: left;
+    width: 215px;
+    height: 121px;
+    -webkit-filter: saturate(1);
+    filter: saturate(1);
+}
+.mod-rank-des .rank-con:hover .rank-tit{height:46px;transition:height .6s ease}
+.mod-rank-des .rank-link img {
+    width: 100%;
+    height: 100%;
+}
+.mod-rank-des .rank-tit {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 28px;
+    background: rgba(0,0,0,.5);
+    overflow: hidden;
+    transition: height .6s ease;
+}
+.mod-rank-des .rank-title {
+    padding: 0 10px;
+    color: #fff;
+    line-height: 28px;
+    font-size: 14px;
+}
+.mod-rank-des .rank-title-link {
+    display: block;
+    width: 100%;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.mod-rank-des .rank-txt {
+    color: #fff;
+    font-size: 12px;
+    line-height: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.plist-item .javaex-list-link {
+    top: unset;
+}

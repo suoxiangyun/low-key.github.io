@@ -1,0 +1,446 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>低调影视</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="综合视频站—— 本站所有影片信息均来至互联网，仅供交流学习使用。">
+    <link rel="shortcut icon" href="/static/common/images/favicon.ico" type="image/x-icon">
+    <!--字体图标-->
+    <link href="../common/css/icomoon.css" rel="stylesheet">
+    <!--动画-->
+    <link href="../common/css/animate.css" rel="stylesheet">
+    <!--骨架样式-->
+    <link href="../common/css/common.css" rel="stylesheet">
+    <!--皮肤（缇娜）-->
+    <link href="../common/css/skin/tina.css" rel="stylesheet">
+    <!--jquery，请勿轻易修改版本-->
+    <script src="../common/lib/jquery-3.3.1.min.js"></script>
+    <!--全局动态修改-->
+    <script src="../common/js/common.js"></script>
+
+    <script src="../common/js/common-ajax.js"></script>
+    <!--核心组件-->
+    <script src="../common/js/javaex.js"></script>
+    <!--表单验证-->
+    <script src="../common/js/javaex-formVerify.js"></script>
+    <link href="../common/css/main.css" rel="stylesheet">
+    <link href="../common/css/play.css" rel="stylesheet">
+    <!--<script type="text/javascript" src="../common/jwplayer/jwplayer.js"></script>-->
+    <!--<script src="../common/jwplayer/jwpsrv.js"></script>-->
+    <!--<script src="../common/jwplayer/jwplayer.html5.js"></script>-->
+</head>
+<body ng-app="app" >
+<div class="page-wrap">
+    <div class="main-content" ng-controller="moviesPlayController">
+        <!--顶部-->
+        <div class="header-wrap header-channel" style="background: linear-gradient(rgb(26, 26, 26), transparent);">
+
+            <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+            <div class="header-inner">
+                <!--logo-->
+                <div class="logo-wrap"><a href="/" class="top-logo">低调影视</a></div>
+
+                <!--搜索-->
+                <div class="search-container">
+                    <div class="search-input-wrap"><input type="text" id="keyword" class="search-input original"
+                                                          value=""
+                                                          onkeydown="if(event.keyCode==13){search(this.value);}"></div>
+                    <div class="search-btn" id="search"><i class="iconfont icon-search search-icon"></i></div>
+                </div>
+
+                <!--用户-->
+                <div class="header-side clearfix">
+                    <div class="user-side-wrap">
+
+                        <div class="user-wrap">
+
+                            <div>
+                                <a class="chanel-link user-info-list dropdownSel">
+                                    <span class="user-name"></span>
+                                    <span class="user-level level-0"></span>
+                                    <span class="nav-arrow down"></span>
+                                </a>
+                            </div>
+                            <div class="user-panel">
+                                <div class="user-wrap-arrow"></div>
+                                <div class="user-avatar-wrap">
+
+
+                                    <img src="../common/images/avatar.jpg" class="avatar">
+
+
+                                    <span class="user-name"></span>
+                                    <span class="user-level level-0"></span>
+                                </div>
+                                <ul class="user-chanel">
+                                    <li><a href="/user/fav" target="_blank" class="item"><i class="item-icon lib"></i>我的收藏</a>
+                                    </li>
+                                    <li><a href="#" target="_blank" class="item"><i class="item-icon order"></i>我的订阅</a>
+                                    </li>
+                                    <li><a href="/user/accountset" target="_blank" class="item"><i
+                                            class="item-icon set"></i>个人设置</a></li>
+
+                                    <li><a href="/logout" class="item"><i class="item-icon logout"></i>退出账号</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="user-login show">
+
+
+                            <a href="javascript:;" onclick="login();" class="chanel-link"><span
+                                    class="user-name">登录</span></a>
+                            <a href="/register" class="chanel-link"><span class="user-name">注册</span></a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <script>
+                var path = "";
+
+                $(function () {
+                    // 获取最新的5条历史播放记录
+                    //getHistory5();
+                });
+
+                // 获取最新的5条历史播放记录
+                function getHistory5() {
+                    $.ajax({
+                        url: "/history_info/getHistory5",
+                        type: "POST",
+                        dataType: "json",
+                        data: {},
+                        success: function (rtn) {
+                            if (rtn.code == "000000") {
+                                var list = rtn.data.list;
+
+                                var html = '';
+                                for (var i = 0; i < list.length; i++) {
+                                    html += '<li class="r-item">';
+                                    html += '<a href="/play/' + list[i].video_id + '" target="_blank" class="record-img-wrap">';
+                                    html += '<img src="' + list[i].image + '" width="100%" height="100%" />';
+                                    html += '</a>';
+                                    html += '<a href="/play/' + list[i].video_id + '" target="_blank" class="record-title">' + list[i].biaoti + " 第" + list[i].num + '集</a>';
+                                    html += '</li>';
+                                }
+
+                                if (html != "") {
+                                    $(".no-record-tip").removeClass("show");
+                                    $(".play-record-list-wrap").removeClass("hide");
+                                    $("#history_play_record").append(html);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                $("#search").click(function () {
+                    // 关键词检索
+                    var keyword = $("#keyword").val();
+                    search(keyword);
+                });
+
+                // 搜索
+                function search(keyword) {
+                    // 判断关键词是否为空
+                    keyword = keyword.replace(/(^\s*)|(\s*$)/g, "");
+                    if (keyword != "") {
+                        keyword = keyword.replace(":", "：");
+                        window.location.href = "/search?keyword=" + keyword;
+                    }
+                }
+
+                /**
+                 * 登录
+                 */
+                function login() {
+                    javaex.dialog({
+                        type: "dialog",
+                        id: "loginreg-dialog",
+                        width: "460",
+                        height: "420",
+                        url: "/login/iframe"
+                    });
+                }
+            </script>
+        </div>
+        <!--主体-->
+        <div class="main-wrap" style="padding-top: 10px;margin-top: .7rem;">
+            <loading></loading>
+            <div class="javaex-play-area-wrap">
+                <div class="javaex-play-area">
+                    <!-- 左边播放框 -->
+                    <div class="javaex-play-left">
+                        <div class="javaex-video-wrap">
+                            <div id="player" class="javaex-video-area">
+                                <div class="jwplayer playlist-none" id="myElement"  style="width: 100%; height: 100%; background-color: rgb(0, 0, 0);">
+                                    <iframe  style="width: 100%; height: 100%; background-color: rgb(0, 0, 0);" id="vipid"  allowtransparency="true" frameborder="0" scrolling="no" src="{{playUrl}}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="full-screen">
+                            <i class="iconfont icon-keyboard_arrow_right"></i>
+                        </div>
+                    </div>
+                    <! --右边剧集列表 -->
+                    <div class="javaex-play-right">
+                        <div class="javaex-play-list">
+                            <div class="javaex-play-episodes"><h2 class="javaex-episode-title">影片信息</h2></div>
+                            <div class="javaex-play-scroll-content">
+                                <div style="position: relative; top: 0px;">
+                                    <div>
+                                        <ul id="play_list" class="javaex-episodes-list">
+                                            <!--<a href="#" target="_blank" class="javaex-app-download">-->
+                                                <!--<img src="{{moviesDetailData.moviesPic}}" class="app-img">-->
+                                            <!--</a>-->
+                                            <li id="li_video_253" class="v-li drama selected">
+                                                <a href="#" class="drama-item">{{moviesDetailData.title}}</a>
+                                            </li>
+                                            <!--<li id="li_video_21" class="v-li drama">-->
+                                                <!--<a href="#" class="drama-item">第2集</a>-->
+                                            <!--</li>-->
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <! --右边播放线路列表 -->
+                    <div class="javaex-play-right2">
+                        <div class="javaex-play-list">
+                            <div class="javaex-play-episodes"><h2 class="javaex-episode-title">播放线路列表</h2></div>
+                            <div class="javaex-play-scroll-content">
+                                <div style="position: relative; top: 0px;">
+                                    <div>
+                                        <!--伍陆柒捌玖零-->
+                                        <ul id="1" class="javaex-episodes-list">
+                                            <li id="4" class="v-li drama"ng-click="playVipUrl(this,'http://p.p40.top/?v=')">
+                                                <a href="#"  class="drama-item">壹号VIP视频通用引擎</a>
+                                            </li>
+                                            <li id="1" class="v-li drama" ng-click="playVipUrl(this,'http://jx.wumingse.com/vip?url=')">
+                                                <a href="#"  class="drama-item">贰VIP视频通用引擎</a>
+                                            </li>
+                                            <li id="3" class="v-li drama"ng-click="playVipUrl(this,'https://www.administratorw.com/admin.php?url=')">
+                                                <a href="#"  class="drama-item">叁号VIP视频通用引擎</a>
+                                            </li>
+                                            <li id="2" class="v-li drama"ng-click="playVipUrl(this,'http://jx.yuanzhi668.cn/index.php?url=')">
+                                                <a href="#"  class="drama-item">肆号VIP视频通用引擎</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 影片简介  -->
+                <div>
+                    <div class="javaex-play-info-wrap">
+                        <div class="javaex-play-info">
+                            <h1 class="javaex-play-title">
+                                <a href="/profile/244" target="_blank" title="{{moviesDetailData.title}}">
+                                    <span class="drama-name">{{moviesDetailData.subTitle}}</span>
+                                </a>
+                                <!--<span>：第2集</span>-->
+                            </h1>
+                            <p class="javaex-play-intro">
+                                影片简介
+                                <span class="nav-arrow"></span>
+                            </p>
+                            <ul class="javaex-play-tag">
+                                <li class="tag-li" ng-repeat="data in moviesDetailData.tags" on-finish-render>
+                                    <a href="#" target="_blank" class="tag-li-link">{{data}}</a>
+                                </li>
+                                <!--<li class="tag-li">-->
+                                    <!--<a href="/list?typeId=1&amp;name=风格&amp;value=神魔" target="_blank"-->
+                                       <!--class="tag-li-link">神魔</a>-->
+                                <!--</li>-->
+                                <!--<li class="tag-li">-->
+                                    <!--<a href="/list?typeId=1&amp;name=风格&amp;value=冒险" target="_blank"-->
+                                       <!--class="tag-li-link">冒险</a>-->
+                                <!--</li>-->
+                            </ul>
+                            <!-- 广告 -->
+                            <!--<a href="http://www.m173.cc/static/m173/unplayer.html" target="_blank" class="javaex-app-download">-->
+                                 	<!--<img src="http://173.javaex.cn/gfdghfghghkjhjkg.png" class="app-img">-->
+                            <!--</a>-->
+                        </div>
+                        <div class="javaex-play-content" style="overflow: hidden; display: none;">
+                            <a href="#" target="_blank" class="content-cover">
+                                <img src="{{moviesDetailData.moviesPic}}" class="content-img"
+                                     alt="{{moviesDetailData.subTitle}}">
+                            </a>
+                            <div class="content-right">
+                                <div class="content-item">演员：<a href="#" ng-repeat="data in moviesDetailData.performers" on-finish-render
+                                                                target="_blank" class="tag-link-item">{{data}}</a>
+                                </div>
+                                <div class="content-item">年份：<a href="/list?typeId=1&amp;name=年份&amp;value=2013"
+                                                                target="_blank" class="tag-link-item">{{moviesDetailData.resTime}}</a></div>
+                                <div class="jianjie">
+                                    {{moviesDetailData.description}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 演员简介 -->
+            <!--<div class="javaex-play-area-wrap">-->
+                <!--<div class="javaex-play-area">-->
+                    <!--<div class="javaex-play-left" style="background:#242424;">-->
+
+                        <!--<div class="plist-wrap" style="overflow: hidden;">-->
+                            <!--<h2 class="plist-title">猜你喜欢</h2>-->
+                            <!--<div id="guess" class="plist-ul slider-wrapper ">-->
+                                <!--<div class="plist-item plist-item-img">-->
+                                    <!--<div class="plist-img-wrap">-->
+                                        <!--<div class="plist-con"><a href="/play/3102" target="_blank"-->
+                                                                  <!--class="slider-atag javaex-list-link"><img width="100%"-->
+                                                                                                            <!--height="100%"-->
+                                                                                                            <!--src="http://173.javaex.cn/FgwRpumhAFVG3r6tV6GX2ufJes2_"-->
+                                                                                                            <!--style="display: inline;">-->
+                                            <!--<p class="pic-inner-title">全24集</p></a></div>-->
+                                        <!--<a href="/play/3102" target="_blank" class="pic-title">镇魂街 第一季</a></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+
+        <!--底部-->
+        <div class="footer-wrap js-use-footer">
+            <div class="footer-inner">
+                <div class="footmenu">
+                    <a href="#" rel="nofollow" target="_blank" class="menu-item">本站所有影片信息均来至互联网，仅供学习交流</a>
+                    <span class="dl"></span>
+                    <a href="#" rel="nofollow" target="_blank" class="menu-item">侵权投诉</a>
+                    <span class="dl"></span>
+                    <span class="menu-item"></span>
+                </div>
+                <p class="copyright">Copyright © 2019 低调影视 All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../common/js/angular.min.js"></script>
+<script type="text/javascript" src="../common/js/play/player.js"></script>
+<script>
+    //6594005500?callback=jsonp_1568269569359_76402
+
+    var moviesPlayApp = angular.module('app',  []);
+
+    //本地接口工厂服务
+    moviesPlayApp.factory('MoviesDetailInfo',['$http', '$q', function($http,$q){
+        return {
+            getMoviesDetailUrl: function(moviesUrl, idKey){
+                var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
+                $http({method: 'GET', url: moviesUrl}).
+                success(function(data, status, headers, config) {
+                    data.forEach((value, key) =>{
+                        if(idKey == value._id){
+                            deferred.resolve(value);  // 声明执行成功，即http请求数据成功，可以返回数据了
+                        }
+                    });
+                }).
+                error(function(data, status, headers, config) {
+                    deferred.reject(data);   // 声明执行失败，即服务器返回错误
+                });
+                return deferred.promise;   // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            }
+        }
+    }]);
+
+    moviesPlayApp.controller('moviesPlayController', ['$scope', 'MoviesDetailInfo', function ($scope, MoviesDetailInfo) { // 引用我们定义的MoviesInfo服务
+        //$scope.playUrl ="";
+        $scope.moviesDetailData ={};
+
+        var sid = getQueryUrlVal("sid");
+        var type = getQueryUrlVal("type");
+
+        //获取影片详细信息
+        ajaxGetMoviesDetail($scope, MoviesDetailInfo, type, sid);
+
+        //线路选择
+        $scope.playVipUrl = function(obj, playVipUrl) {
+            var playVipUrl =playVipUrl+"https://v.qq.com/x/cover/"+sid+".html";
+            console.info(" playVipUrl == " + playVipUrl);
+            $("#vipid").attr("src",playVipUrl);
+        };
+
+
+    }]);
+
+    //loading 样式
+    moviesPlayApp.directive('loading',loading);
+
+
+    function loading(){
+        return {
+            restrict: 'E',
+            transclude: true,
+            template: '<div ng-show="loading" class="loading" id="allDiv"  style="position:fixed; top:0px; left:0px; width:100%; height:100%; display:none; background-color:#000; opacity: 0.5; z-index:99999;">'
+            +'<img alt="" src="../common/images/loading.png" style="vertical-align: middle;width:100px; height:100px; position: absolute; top:50%; left:50%; margin-top: -50px; margin-left:-50px;"/></div>',
+            link: function (scope, element, attr) {
+                scope.$watch('loading', function (val) {
+                    if (val){
+                        document.getElementById("allDiv").style.display = "block";
+                    }else{
+                        document.getElementById("allDiv").style.display = 'none';
+                    }
+                });
+            }
+        }
+    }
+
+
+
+    function ajaxGetMoviesDetail($scope, MoviesDetailInfo, type, sid) {
+        $scope.loading = true;//控制遮罩层显示
+        var idKey = type+"_detail_url";
+        var detailUrlStr = "../api/"+"movies_detail_data.json";
+        MoviesDetailInfo.getMoviesDetailUrl(detailUrlStr, idKey).then(function(urldata) {  // 调用承诺API获取数据 .resolve
+            //获取本地接口需要判断
+            var detailUrl =  urldata.detailUrl + "callback=" + idKey + "&cid=" + sid + "&_=" + Math.random();
+            request_get_jsonp(detailUrl,"jsonp",idKey).then(function (data) {
+                $scope.loading = false;//控制遮罩层隐藏
+                var moviesDetailData = moviesDetailConventView(data);
+                console.info(idKey + " ==== " + JSON.stringify(data));
+                $scope.moviesDetailData = moviesDetailData;
+//                $scope.playUrl ="http://jx.wumingse.com/vip?url=https://v.qq.com/x/cover/"+moviesDetailData.sid+".html";
+                console.info(" detailUrl === " +$scope.playUrl );
+                $scope.$apply();//绑定到视图
+            });
+        }, function(data) {  // 处理错误 .reject
+            $scope.loading = false;//控制遮罩层隐藏
+            $scope.$apply();//绑定到视图
+        });
+    }
+
+
+    function moviesDetailConventView(detailData){
+        var moviesDetailData = {};
+        if(detailData != null){
+            moviesDetailData.sid = detailData.c.vid;
+//            moviesDetailData.playUrl = detailData.url;
+            moviesDetailData.tags = detailData.typ;
+            moviesDetailData.performers = detailData.nam;
+            moviesDetailData.subTitle=detailData.rec;
+            moviesDetailData.title=detailData.c.title;
+            moviesDetailData.moviesPic = detailData.c.pic;
+            moviesDetailData.resTime = detailData.c.year;
+            moviesDetailData.description=detailData.c.description;
+        }
+        return  moviesDetailData;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<html><head>
+    <meta charset="utf-8">
+    <title>低调影视</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="综合视频站—— 本站所有影片信息均来至互联网，仅供交流学习使用。">
+    <link rel="shortcut icon" href="/static/common/images/favicon.ico" type="image/x-icon">
+    <!--字体图标-->
+    <link href="../common/css/icomoon.css" rel="stylesheet">
+    <!--动画-->
+    <link href="../common/css/animate.css" rel="stylesheet">
+    <!--骨架样式-->
+    <link href="../common/css/common.css" rel="stylesheet">
+    <!--皮肤（缇娜）-->
+    <link href="../common/css/skin/tina.css" rel="stylesheet">
+    <!--jquery，请勿轻易修改版本-->
+    <script src="../common/lib/jquery-3.3.1.min.js"></script>
+    <!--全局动态修改-->
+    <script src="../common/js/common.js"></script>
+    <!--核心组件-->
+    <script src="../common/js/javaex.js"></script>
+    <!--表单验证-->
+    <script src="../common/js/javaex-formVerify.js"></script>
+    <link href="../common/css/main.css" rel="stylesheet">
+    <style>
+        .header-wrap{background:linear-gradient(#1a1a1a,transparent);}
+    </style><style>
+    .ex-slide ul.focus-bg a{display: block; width: 100%; height: 100%; background: no-repeat 50%; background-size: cover;}
+    .ex-slide ul.focus-bg li{width: 100%; height: 550px;}
+    .ex-slide .focus-box {position: unset;}
+</style></head>
+<body ng-app="app" ng-controller="moviesController">
+<div class="page-wrap">
+    <div class="main-content">
+        <!--顶部-->
+        <div class="header-wrap header-channel" style="background: linear-gradient(rgb(26, 26, 26), transparent);">
+
+            <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+            <div class="header-inner">
+                <!--logo-->
+                <div class="logo-wrap"><a href="/" class="top-logo">低调影视</a></div>
+
+                <!--搜索-->
+                <div class="search-container">
+                    <div class="search-input-wrap"><input type="text" id="keyword" class="search-input original" value="" onkeydown="if(event.keyCode==13){search(this.value);}"></div>
+                    <div class="search-btn" id="search"><i class="iconfont icon-search search-icon"></i></div>
+                </div>
+
+                <!--用户-->
+                <div class="header-side clearfix">
+                    <div class="user-side-wrap">
+
+                        <div class="user-wrap">
+
+                            <div>
+                                <a class="chanel-link user-info-list dropdownSel">
+                                    <span class="user-name"></span>
+                                    <span class="user-level level-0"></span>
+                                    <span class="nav-arrow down"></span>
+                                </a>
+                            </div>
+                            <div class="user-panel">
+                                <div class="user-wrap-arrow"></div>
+                                <div class="user-avatar-wrap">
+
+
+                                    <img src="../common/images/avatar.jpg" class="avatar">
+
+
+
+                                    <span class="user-name"></span>
+                                    <span class="user-level level-0"></span>
+                                </div>
+                                <ul class="user-chanel">
+                                    <li><a href="/user/fav" target="_blank" class="item"><i class="item-icon lib"></i>我的收藏</a></li>
+                                    <li><a href="#" target="_blank" class="item"><i class="item-icon order"></i>我的订阅</a></li>
+                                    <li><a href="/user/accountset" target="_blank" class="item"><i class="item-icon set"></i>个人设置</a></li>
+
+                                    <li><a href="/logout" class="item"><i class="item-icon logout"></i>退出账号</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="user-login show">
+
+
+
+                            <a href="javascript:;" onclick="login();" class="chanel-link"><span class="user-name">登录</span></a>
+                            <a href="/register" class="chanel-link"><span class="user-name">注册</span></a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <script>
+                var path = "";
+
+                $(function() {
+                    // 获取最新的5条历史播放记录
+                    //getHistory5();
+                });
+
+                // 获取最新的5条历史播放记录
+                function getHistory5() {
+                    $.ajax({
+                        url : "/history_info/getHistory5",
+                        type : "POST",
+                        dataType : "json",
+                        data : {},
+                        success : function(rtn) {
+                            if (rtn.code=="000000") {
+                                var list = rtn.data.list;
+
+                                var html = '';
+                                for (var i=0; i<list.length; i++) {
+                                    html += '<li class="r-item">';
+                                    html += '<a href="/play/'+list[i].video_id+'" target="_blank" class="record-img-wrap">';
+                                    html += '<img src="'+list[i].image+'" width="100%" height="100%" />';
+                                    html += '</a>';
+                                    html += '<a href="/play/'+list[i].video_id+'" target="_blank" class="record-title">'+list[i].biaoti+" 第"+list[i].num+'集</a>';
+                                    html += '</li>';
+                                }
+
+                                if (html!="") {
+                                    $(".no-record-tip").removeClass("show");
+                                    $(".play-record-list-wrap").removeClass("hide");
+                                    $("#history_play_record").append(html);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                $("#search").click(function() {
+                    // 关键词检索
+                    var keyword = $("#keyword").val();
+                    search(keyword);
+                });
+
+                // 搜索
+                function search(keyword) {
+                    // 判断关键词是否为空
+                    keyword = keyword.replace(/(^\s*)|(\s*$)/g, "");
+                    if (keyword!="") {
+                        keyword = keyword.replace(":", "：");
+                        window.location.href = "/search?keyword="+ keyword;
+                    }
+                }
+
+                /**
+                 * 登录
+                 */
+                function login() {
+                    javaex.dialog({
+                        type : "dialog",
+                        id : "loginreg-dialog",
+                        width : "460",
+                        height : "420",
+                        url : "/login/iframe"
+                    });
+                }
+            </script>
+        </div>
+
+        <!--幻灯片-->
+        <div id="slide" class="ex-slide focus-banner">
+            <!--背景大图-->
+            <ul class="focus-bg">
+                <li style="opacity: 0; display: list-item;"><a href="http://173dm.javaex.cn/play/5727" target="_blank" style="background-image: url('http://img.javaex.cn/FjeMpPZvoGXnPpujrKX7CzSLoaqJ');"></a></li>
+                <li style="opacity: 0; display: none;"><a href="http://173dm.javaex.cn/play/5601" target="_blank" style="background-image: url('http://img.javaex.cn/FhQTDD-9AI_tM9Zb7B1TN8mn6Eqw');"></a></li>
+                <li style="opacity: 0; display: none;"><a href="http://173dm.javaex.cn/play/4302" target="_blank" style="background-image: url('http://img.javaex.cn/FvayJOPUoY21yt5JqPSKRz8PWA0r');"></a></li>
+                <li style="opacity: 0; display: none;"><a href="http://173dm.javaex.cn/play/2226" target="_blank" style="background-image: url('http://173.javaex.cn/9f22a25c55d043c7aeb47c0096fa6a8f.jpg');"></a></li>
+                <li style="opacity: 0; display: none;"><a href="http://173dm.javaex.cn/play/5690" target="_blank" style="background-image: url('http://img.javaex.cn/FgvozfsKHqWzhYDWS19cgkDMjreL');"></a></li>
+                <li style="opacity: 0; display: none;"><a href="http://173dm.javaex.cn/play/159" target="_blank" style="background-image: url('http://173.javaex.cn/81d6a8b604a445bc84acafca18e0a462.jpg');"></a></li>
+                <li style="opacity: 0; display: none;"><a href="http://173dm.javaex.cn/play/145" target="_blank" style="background-image: url('http://173.javaex.cn/f3126db8dd4b478d8690cfe583fa830e.jpg');"></a></li>
+            </ul>
+
+            <div class="focus-thumb-wrap">
+                <!--标题，如果不需要，直接去掉这个div即可-->
+                <div class="focus-title">
+                    <ul>
+                        <li style="display: list-item;"><p class="thumb-title"><i class="spiconfont icon-playbtn1"></i> <span>蛮荒时代的科学革命</span></p></li>
+                        <li style="display: none;"><p class="thumb-title"><i class="spiconfont icon-playbtn1"></i> <span>伙伴集结 抵御外敌</span></p></li>
+                        <li style="display: none;"><p class="thumb-title"><i class="spiconfont icon-playbtn1"></i> <span>母亲是冒险最强武器</span></p></li>
+                        <li style="display: none;"><p class="thumb-title"><i class="spiconfont icon-playbtn1"></i> <span>火影忍者新时代</span></p></li>
+                        <li style="display: none;"><p class="thumb-title"><i class="spiconfont icon-playbtn1"></i> <span>女儿控的温馨奇幻故事</span></p></li>
+                        <li style="display: none;"><p class="thumb-title"><i class="spiconfont icon-playbtn1"></i> <span>魔导少年称霸魔法世界</span></p></li>
+                        <li style="display: none;"><p class="thumb-title"><i class="spiconfont icon-playbtn1"></i> <span>草帽一伙的冒险轨迹</span></p></li>
+                    </ul>
+                </div>
+
+                <!--焦点，如果不需要焦点的话，直接去掉这个diainer">
+                    <div class="">v即可-->
+                        <div class="focus-box focus-thumb-cont">
+                        <ul class="focus-thumb-list">
+                            <li class="thumb-item">
+                                <div class="thumb-img-wrap">
+                                    <div class="thumb-con">
+                                        <a href="http://173dm.javaex.cn/play/5700" target="_blank" class="thumb-list-link" title="蛮荒时代的科学革命">
+                                            <img width="100%" height="100%" src="http://puui.qpic.cn/vcover_vt_pic/0/p19ym44r2sidp8p1564050381/350" style="display: inline;">
+                                        </a>
+                                        <div class="thumb-con-mask"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="thumb-item on">
+                                <div class="thumb-img-wrap">
+                                    <div class="thumb-con">
+                                        <a href="http://173dm.javaex.cn/play/5727" target="_blank" class="thumb-list-link" title="少年少女的眷族物语">
+                                            <img width="100%" height="100%" src="http://img.javaex.cn/Fvl0IDMkawXmpUxYYLl1UBvJxMpJ" style="display: inline;">
+                                        </a>
+                                        <div class="thumb-con-mask"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="thumb-item">
+                                <div class="thumb-img-wrap">
+                                    <div class="thumb-con">
+                                        <a href="http://173dm.javaex.cn/play/5601" target="_blank" class="thumb-list-link" title="伙伴集结 抵御外敌">
+                                            <img width="100%" height="100%" src="http://img.javaex.cn/Fos4H59vZUWKUZs4WNyxgsUD7S0v" style="display: inline;">
+                                        </a>
+                                        <div class="thumb-con-mask"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="thumb-item">
+                                <div class="thumb-img-wrap">
+                                    <div class="thumb-con">
+                                        <a href="http://173dm.javaex.cn/play/4302" target="_blank" class="thumb-list-link" title="母亲是冒险最强武器">
+                                            <img width="100%" height="100%" src="http://img.javaex.cn/Fk-M8lbyUJbBs7w6W-mogs_ClrAw" style="display: inline;">
+                                        </a>
+                                        <div class="thumb-con-mask"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="thumb-item">
+                                <div class="thumb-img-wrap">
+                                    <div class="thumb-con">
+                                        <a href="http://173dm.javaex.cn/play/2226" target="_blank" class="thumb-list-link" title="火影忍者新时代">
+                                            <img width="100%" height="100%" src="http://173.javaex.cn/14af91e0abf64db3a810fe74f7f7c4f0.jpg" style="display: inline;">
+                                        </a>
+                                        <div class="thumb-con-mask"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="thumb-item">
+                                <div class="thumb-img-wrap">
+                                    <div class="thumb-con">
+                                        <a href="http://173dm.javaex.cn/play/5690" target="_blank" class="thumb-list-link" title="女儿控的温馨奇幻故事">
+                                            <img width="100%" height="100%" src="http://img.javaex.cn/FuZXF3jkdbgdNrvJR5Qj-fElw6RI" style="display: inline;">
+                                        </a>
+                                        <div class="thumb-con-mask"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="thumb-item">
+                                <div class="thumb-img-wrap">
+                                    <div class="thumb-con">
+                                        <a href="http://173dm.javaex.cn/play/159" target="_blank" class="thumb-list-link" title="魔导少年称霸魔法世界">
+                                            <img width="100%" height="100%" src="http://173.javaex.cn/1c1bafd318ee43f4948310eba0641d1c.jpg" style="display: inline;">
+                                        </a>
+                                        <div class="thumb-con-mask"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="thumb-item">
+                                <div class="thumb-img-wrap">
+                                    <div class="thumb-con">
+                                        <a href="http://173dm.javaex.cn/play/145" target="_blank" class="thumb-list-link" title="草帽一伙的冒险轨迹">
+                                            <img width="100%" height="100%" src="http://img.javaex.cn/FgHi-Li72t9TgNW-kxNnC6rnx1LV" style="display: inline;">
+                                        </a>
+                                        <div class="thumb-con-mask"></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <!--主体-->
+        <div class="main-wrap">
+            <!--分类检索-->
+            <div class="pc-sort-block">
+                <div class="sort-single-block sort-block-left">
+                    <div class="sort-block-inner">
+                        <p  class="tag-title">
+                           <a  class="tag-title" ng-click="getHomeMoviesData('qq');" target="_blank">腾讯</a>
+                        </p>
+                        <ul class="tag-list">
+                            <li class="tag-list-item"><a href="list.html?type=qq&producer=film&value=电影" target="_blank" class="tag-link-item">电影</a></li>
+                            <li class="tag-list-item"><a href="list.html?type=qq&producer=tv&value=剧集" target="_blank" class="tag-link-item">剧集</a></li>
+                            <li class="tag-list-item"><a href="list.html?type=qq&producer=cartoon&value=动漫" target="_blank" class="tag-link-item">动漫</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sort-single-block sort-block-middle">
+                    <div class="sort-block-inner">
+                        <p  class="tag-title">
+                            <a class="tag-title" ng-click="getHomeMoviesData('iqiyi');" target="_blank">爱奇艺</a>
+                        </p>
+                        <ul class="tag-list">
+                            <li class="tag-list-item"><a href="/list?typeId=1&amp;name=风格&amp;value=搞笑" target="_blank" class="tag-link-item">电影</a></li>
+                            <li class="tag-list-item"><a href="/list?typeId=1&amp;name=风格&amp;value=热血" target="_blank" class="tag-link-item">剧集</a></li>
+                            <li class="tag-list-item"><a href="/list?typeId=1&amp;name=风格&amp;value=奇幻" target="_blank" class="tag-link-item">动漫</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sort-single-block sort-block-right">
+                    <div class="sort-block-inner">
+                        <p  class="tag-title">
+                            <a class="tag-title" href="#" ng-click="getHomeMoviesData('youku');" target="_blank">优酷</a>
+                        </p>
+                        <ul class="tag-list">
+                            <li class="tag-list-item"><a href="/list?typeId=1&amp;name=风格&amp;value=搞笑" target="_blank" class="tag-link-item">电影</a></li>
+                            <li class="tag-list-item"><a href="/list?typeId=1&amp;name=风格&amp;value=热血" target="_blank" class="tag-link-item">剧集</a></li>
+                            <li class="tag-list-item"><a href="/list?typeId=1&amp;name=风格&amp;value=奇幻" target="_blank" class="tag-link-item">动漫</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!--电影大家都在看 -->
+            <div class="plist-wrap" style="overflow: hidden;">
+                <h2 class="plist-title">电影&amp;大家都在看</h2>
+                <div id="film" class="plist-ul slider-wrapper">
+                    <div class="plist-item" ng-repeat="data in filmHomepageMoviesData">
+                        <div class="plist-img-wrap">
+                            <div class="plist-con pop-in" style="animation-delay: 0.447379s;">
+                                <a href="play.html?sid={{data.moviesId}}&type=qq&producer=film" target="_blank" class="slider-atag javaex-list-link">
+                                    <img width="100%" height="100%" src="{{data.moviesImgs}}" style="display: inline;">
+                                    <!--<p class="pic-inner-title">荣耀永不散场</p>-->
+                                </a>
+                            </div>
+                            <a href="#" target="_blank" class="pic-title">{{data.moviesName}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--电视剧大家都在看 -->
+            <div class="plist-wrap" style="overflow: hidden;">
+                <h2 class="plist-title">电视剧&amp;大家都在看</h2>
+                <div id="tv" class="plist-ul slider-wrapper">
+                    <div class="plist-item" ng-repeat="data in tvHomepageMoviesData">
+                        <div class="plist-img-wrap">
+                            <div class="plist-con pop-in" style="animation-delay: 0.447379s;">
+                                <a href="play.html?sid={{data.moviesId}}&type=qq&producer=tv" target="_blank" class="slider-atag javaex-list-link">
+                                    <img width="100%" height="100%" src="{{data.moviesImgs}}" style="display: inline;">
+                                    <!--<p class="pic-inner-title">荣耀永不散场</p>-->
+                                </a>
+                            </div>
+                            <a href="#" target="_blank" class="pic-title">{{data.moviesName}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--动漫大家都在看 -->
+            <div class="plist-wrap" style="overflow: hidden;">
+                <h2 class="plist-title">动漫&amp;大家都在看</h2>
+                <div id="cartoon" class="plist-ul slider-wrapper">
+                    <div class="plist-item" ng-repeat="data in cartoonHomepageMoviesData">
+                        <div class="plist-img-wrap">
+                            <div class="plist-con pop-in" style="animation-delay: 0.447379s;">
+                                <a href="play.html?sid={{data.moviesId}}&type=qq&producer=cartoon" target="_blank" class="slider-atag javaex-list-link">
+                                    <img width="100%" height="100%" src="{{data.moviesImgs}}" style="display: inline;">
+                                    <!--<p class="pic-inner-title">荣耀永不散场</p>-->
+                                </a>
+                            </div>
+                            <a href="#" target="_blank" class="pic-title">{{data.moviesName}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--底部-->
+        <div class="footer-wrap js-use-footer">
+            <div class="footer-inner">
+                <div class="footmenu">
+                    <a href="#" rel="nofollow" target="_blank" class="menu-item">本站所有影片信息均来至互联网，仅供学习交流</a>
+                    <span class="dl"></span>
+                    <a href="#" rel="nofollow" target="_blank" class="menu-item">侵权投诉</a>
+                    <span class="dl"></span>
+                    <span class="menu-item"></span>
+                </div>
+                <p class="copyright">Copyright © 2019 低调影视 All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../common/js/angular.min.js"></script>
+<script type="text/javascript" src="../common/js/index.js"></script>
+<script>
+    var myApp = angular.module('app', []).controller('moviesController', function($scope,$http) {
+        var tmpType= "qq";
+        $scope.filmHomepageMoviesData = [];
+        $scope.cartoonHomepageMoviesData = [];
+        $scope.tvHomepageMoviesData = [];
+
+        //首次加载数据
+        $http({
+            method: 'GET',
+            dataType:"json",
+            url : "../api/qq_home_data.json",
+            async : false,
+            data : []
+        }).success(function (jdata) {
+            jdata.forEach((value, key) =>{
+                if(value._id == "qq_film_homepage_movies_data"){
+                    $scope.filmHomepageMoviesData = value.moviesDatas;
+                }
+                if(value._id == "qq_tv_homepage_movies_data"){
+                    $scope.tvHomepageMoviesData = value.moviesDatas;
+                }
+                if(value._id == "qq_cartoon_homepage_movies_data"){
+                    $scope.cartoonHomepageMoviesData = value.moviesDatas;
+                }
+            });
+        });
+
+        // 首页影片数据点击 事件绑定的函数
+        $scope.getHomeMoviesData = function(type) {
+            getHomeData($scope, type);
+        };
+        //影片列表数据跳转
+        $scope.getMore = function(producer,type) {
+          window.location.href="list.html";
+        };
+    });
+
+    function getHomeData($scope,type){
+        var url = "";
+        if(type== undefined){
+            url = "../api/qq_home_data.json";
+        }else{
+            url = "../api/"+type+"_home_data.json";
+        }
+//        console.info($scope + " url === " + url);
+        $.getJSON(url,function(jdata){
+            if(jdata != null ){
+                jdata.forEach((value, key) =>{
+                    if(value._id == "qq_film_homepage_movies_data"){
+                        $scope.filmHomepageMoviesData = value.moviesDatas;
+                    }
+                    if(value._id == "qq_tv_homepage_movies_data"){
+                        $scope.tvHomepageMoviesData = value.moviesDatas;
+                    }
+                    if(value._id == "qq_cartoon_homepage_movies_data"){
+                        $scope.cartoonHomepageMoviesData = value.moviesDatas;
+                    }
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>
